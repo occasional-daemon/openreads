@@ -111,9 +111,11 @@ class Book {
               ? BookFormat.ebook
               : json['book_type'] == 'hardcover'
                   ? BookFormat.hardcover
-                  : json['book_type'] == 'paperback'
-                      ? BookFormat.paperback
-                      : BookFormat.paperback,
+                  : json['book_type'] == 'webnovel'
+                      ? BookFormat.webnovel
+                      : json['book_type'] == 'paperback'
+                          ? BookFormat.paperback
+                          : BookFormat.paperback,
       readings: _sortReadings(_parseReadingsFromJson(json)),
       dateAdded: json['date_added'] != null
           ? DateTime.parse(json['date_added'])
@@ -288,7 +290,9 @@ class Book {
                   ? 'hardcover'
                   : bookFormat == BookFormat.paperback
                       ? 'paperback'
-                      : 'paperback',
+                      : bookFormat == BookFormat.webnovel
+                          ? 'webnovel'
+                          : 'paperback',
       'readings': readings.map((reading) => reading.toString()).join(';'),
       'date_added': dateAdded.toIso8601String(),
       'date_modified': dateModified.toIso8601String(),

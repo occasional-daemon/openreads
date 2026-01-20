@@ -76,6 +76,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     LocaleKeys.book_format_hardcover.tr(),
     LocaleKeys.book_format_ebook.tr(),
     LocaleKeys.book_format_audiobook.tr(),
+    LocaleKeys.book_format_webnovel.tr(),
   ];
 
   void _prefillBookDetails(Book book) {
@@ -251,6 +252,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
       context.read<EditBookCubit>().setBookFormat(BookFormat.ebook);
     } else if (bookType == bookTypes[3]) {
       context.read<EditBookCubit>().setBookFormat(BookFormat.audiobook);
+    } else if (bookType == bookTypes[4]) {
+      context.read<EditBookCubit>().setBookFormat(BookFormat.webnovel);
     } else {
       context.read<EditBookCubit>().setBookFormat(BookFormat.paperback);
     }

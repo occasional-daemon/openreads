@@ -3,6 +3,7 @@ enum BookFormat {
   hardcover,
   ebook,
   audiobook,
+  webnovel,
 }
 
 extension BookFormatExtension on BookFormat {
@@ -16,6 +17,8 @@ extension BookFormatExtension on BookFormat {
         return 2;
       case BookFormat.audiobook:
         return 3;
+      case BookFormat.webnovel:
+        return 4;
       default:
         return 0;
     }
@@ -32,6 +35,8 @@ BookFormat parseBookFormat(int value) {
       return BookFormat.ebook;
     case 3:
       return BookFormat.audiobook;
+    case 4:
+      return BookFormat.webnovel;
     default:
       return BookFormat.paperback;
   }

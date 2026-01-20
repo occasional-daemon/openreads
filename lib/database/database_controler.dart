@@ -155,7 +155,9 @@ class DatabaseController {
                 ? 'paperback'
                 : bookFormat == BookFormat.hardcover
                     ? 'hardcover'
-                    : 'paperback';
+                    : bookFormat == BookFormat.webnovel
+                        ? 'webnovel'
+                        : 'paperback';
 
     for (int id in ids) {
       batch.update("booksTable", {"book_type": bookFormatString},

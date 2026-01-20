@@ -13,6 +13,8 @@ abstract class LocaleKeys {
   static const book_format_hardcover = 'book_format_hardcover';
   static const book_format_ebook = 'book_format_ebook';
   static const book_format_audiobook = 'book_format_audiobook';
+  static const book_format_webnovel = 'book_format_webnovel';
+  static const book_format_webnovel_plural = 'book_format_webnovel_plural';
   static const book_format_paper_plural = 'book_format_paper_plural';
   static const book_format_paperback_plural = 'book_format_paperback_plural';
   static const book_format_hardcover_plural = 'book_format_hardcover_plural';

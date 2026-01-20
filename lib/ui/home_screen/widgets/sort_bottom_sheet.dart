@@ -107,6 +107,8 @@ String _getBookTypeDropdownText(BookFormat? bookFormat) {
       return LocaleKeys.book_format_ebook_plural.tr();
     case BookFormat.audiobook:
       return LocaleKeys.book_format_audiobook_plural.tr();
+    case BookFormat.webnovel:
+      return LocaleKeys.book_format_webnovel_plural.tr();
   }
 }
 

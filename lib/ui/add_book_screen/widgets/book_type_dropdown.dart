@@ -28,6 +28,8 @@ class BookTypeDropdown extends StatelessWidget {
         return bookTypes[2];
       case BookFormat.audiobook:
         return bookTypes[3];
+      case BookFormat.webnovel:
+        return bookTypes[4];
       default:
         return bookTypes[0];
     }
@@ -69,7 +71,9 @@ class BookTypeDropdown extends StatelessWidget {
                           ? FontAwesomeIcons.headphones
                           : state.bookFormat == BookFormat.ebook
                               ? FontAwesomeIcons.tabletScreenButton
-                              : FontAwesomeIcons.bookOpen,
+                              : state.bookFormat == BookFormat.webnovel
+                                  ? FontAwesomeIcons.globe
+                                  : FontAwesomeIcons.bookOpen,
                       size: 20,
                       color: Theme.of(context).colorScheme.primary,
                     ),

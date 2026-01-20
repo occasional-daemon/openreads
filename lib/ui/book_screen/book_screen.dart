@@ -227,7 +227,9 @@ class BookScreen extends StatelessWidget {
               ? LocaleKeys.book_format_ebook.tr()
               : state.bookFormat == BookFormat.hardcover
                   ? LocaleKeys.book_format_hardcover.tr()
-                  : LocaleKeys.book_format_paperback.tr(),
+                  : state.bookFormat == BookFormat.webnovel
+                      ? LocaleKeys.book_format_webnovel.tr()
+                      : LocaleKeys.book_format_paperback.tr(),
     );
   }
 

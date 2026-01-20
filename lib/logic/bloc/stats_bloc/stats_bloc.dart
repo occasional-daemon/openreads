@@ -47,6 +47,8 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
           _getFinishedBooksByMonth(finishedBooks, BookFormat.ebook, years);
       final finishedBooksByMonthAudiobooks =
           _getFinishedBooksByMonth(finishedBooks, BookFormat.audiobook, years);
+      final finishedBooksByMonthWebnovels =
+          _getFinishedBooksByMonth(finishedBooks, BookFormat.webnovel, years);
 
       final finishedPagesByMonthAllTypes =
           _getFinishedPagesByMonth(finishedBooks, null, years);
@@ -58,6 +60,8 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
           _getFinishedPagesByMonth(finishedBooks, BookFormat.ebook, years);
       final finishedPagesByMonthAudiobooks =
           _getFinishedPagesByMonth(finishedBooks, BookFormat.audiobook, years);
+      final finishedPagesByMonthWebnovels =
+          _getFinishedPagesByMonth(finishedBooks, BookFormat.webnovel, years);
 
       final averageRating = _getAverageRating(finishedBooks, years);
       final averagePages = _getAveragePages(finishedBooks, years);
@@ -80,11 +84,13 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
         finishedBooksByMonthHardcoverBooks: finishedBooksByMonthHardcoverBooks,
         finishedBooksByMonthEbooks: finishedBooksByMonthEbooks,
         finishedBooksByMonthAudiobooks: finishedBooksByMonthAudiobooks,
+        finishedBooksByMonthWebnovels: finishedBooksByMonthWebnovels,
         finishedPagesByMonthAllTypes: finishedPagesByMonthAllTypes,
         finishedPagesByMonthPaperbackBooks: finishedPagesByMonthPaperbackBooks,
         finishedPagesByMonthHardcoverBooks: finishedPagesByMonthHardcoverBooks,
         finishedPagesByMonthEbooks: finishedPagesByMonthEbooks,
         finishedPagesByMonthAudiobooks: finishedPagesByMonthAudiobooks,
+        finishedPagesByMonthWebnovels: finishedPagesByMonthWebnovels,
         finishedBooksAll: allFinishedBooks,
         finishedPagesAll: allFinishedPages,
         averageRating: averageRating,

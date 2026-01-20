@@ -212,6 +212,14 @@ class SettingsScreen extends StatelessWidget {
                     BookFormat.audiobook,
                   ),
                 ),
+                const SizedBox(height: 5),
+                SettingsDialogButton(
+                  text: LocaleKeys.book_format_webnovel.tr(),
+                  onPressed: () => _setDefaultBooksFormat(
+                    context,
+                    BookFormat.webnovel,
+                  ),
+                ),
               ],
             ),
           ),
@@ -582,6 +590,11 @@ class SettingsScreen extends StatelessWidget {
           } else if (state == BookFormat.audiobook) {
             return Text(
               LocaleKeys.book_format_audiobook.tr(),
+              style: const TextStyle(),
+            );
+          } else if (state == BookFormat.webnovel) {
+            return Text(
+              LocaleKeys.book_format_webnovel.tr(),
               style: const TextStyle(),
             );
           } else {

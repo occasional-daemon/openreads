@@ -20,11 +20,13 @@ class StatsLoaded extends StatsState {
   final List<BookReadStat> finishedBooksByMonthHardcoverBooks;
   final List<BookReadStat> finishedBooksByMonthEbooks;
   final List<BookReadStat> finishedBooksByMonthAudiobooks;
+  final List<BookReadStat> finishedBooksByMonthWebnovels;
   final List<BookReadStat> finishedPagesByMonthAllTypes;
   final List<BookReadStat> finishedPagesByMonthPaperbackBooks;
   final List<BookReadStat> finishedPagesByMonthHardcoverBooks;
   final List<BookReadStat> finishedPagesByMonthEbooks;
   final List<BookReadStat> finishedPagesByMonthAudiobooks;
+  final List<BookReadStat> finishedPagesByMonthWebnovels;
   final int finishedBooksAll;
   final int finishedPagesAll;
   final List<BookYearlyStat> averageRating;
@@ -46,11 +48,13 @@ class StatsLoaded extends StatsState {
     required this.finishedBooksByMonthHardcoverBooks,
     required this.finishedBooksByMonthEbooks,
     required this.finishedBooksByMonthAudiobooks,
+    required this.finishedBooksByMonthWebnovels,
     required this.finishedPagesByMonthAllTypes,
     required this.finishedPagesByMonthPaperbackBooks,
     required this.finishedPagesByMonthHardcoverBooks,
     required this.finishedPagesByMonthEbooks,
     required this.finishedPagesByMonthAudiobooks,
+    required this.finishedPagesByMonthWebnovels,
     required this.finishedBooksAll,
     required this.finishedPagesAll,
     required this.averageRating,
@@ -74,11 +78,13 @@ class StatsLoaded extends StatsState {
         finishedBooksByMonthHardcoverBooks,
         finishedBooksByMonthEbooks,
         finishedBooksByMonthAudiobooks,
+        finishedBooksByMonthWebnovels,
         finishedPagesByMonthAllTypes,
         finishedPagesByMonthPaperbackBooks,
         finishedPagesByMonthHardcoverBooks,
         finishedPagesByMonthEbooks,
         finishedPagesByMonthAudiobooks,
+        finishedPagesByMonthWebnovels,
         finishedBooksAll,
         finishedPagesAll,
         averageRating,

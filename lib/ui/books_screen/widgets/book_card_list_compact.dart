@@ -139,7 +139,9 @@ class BookCardListCompact extends StatelessWidget {
             ? FontAwesomeIcons.headphones
             : book.bookFormat == BookFormat.ebook
                 ? FontAwesomeIcons.tabletScreenButton
-                : FontAwesomeIcons.bookOpen,
+                : book.bookFormat == BookFormat.webnovel
+                    ? FontAwesomeIcons.globe
+                    : FontAwesomeIcons.bookOpen,
         size: 14,
         color: Theme.of(context).colorScheme.primaryContainer,
       );

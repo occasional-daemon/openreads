@@ -154,7 +154,9 @@ class CSVExport {
                     ? 'ebook'
                     : book.bookFormat == BookFormat.audiobook
                         ? 'audiobook'
-                        : '');
+                        : book.bookFormat == BookFormat.webnovel
+                            ? 'webnovel'
+                            : '');
         newRow.add(
           book.readings.isNotEmpty
               ? book.readings.map((reading) => reading.toString()).join(';')

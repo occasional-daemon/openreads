@@ -11,6 +11,8 @@
     "book_format_hardcover": "Hardcover",
     "book_format_ebook": "E-book",
     "book_format_audiobook": "Audiobook",
+    "book_format_webnovel": "Webnovel",
+    "book_format_webnovel_plural": "Webnovels",
     "book_format_paper_plural": "Paper books",
     "book_format_paperback_plural": "Paperback books",
     "book_format_hardcover_plural": "Hardcover books",

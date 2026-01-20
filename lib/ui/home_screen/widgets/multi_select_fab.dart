@@ -24,6 +24,7 @@ class MultiSelectFAB extends StatelessWidget {
     LocaleKeys.book_format_hardcover.tr(),
     LocaleKeys.book_format_ebook.tr(),
     LocaleKeys.book_format_audiobook.tr(),
+    LocaleKeys.book_format_webnovel.tr(),
   ];
 
   final _authorCtrl = TextEditingController();
@@ -102,6 +103,8 @@ class MultiSelectFAB extends StatelessWidget {
       selectedBookType = BookFormat.ebook;
     } else if (bookType == bookTypes[3]) {
       selectedBookType = BookFormat.audiobook;
+    } else if (bookType == bookTypes[4]) {
+      selectedBookType = BookFormat.webnovel;
     } else {
       selectedBookType = BookFormat.paperback;
     }
