@@ -318,7 +318,7 @@ class Statistics extends StatelessWidget {
         finishedBooksByMonthAudiobooks = bookReadStat.values;
       }
     }
-    
+
     for (var bookReadStat in state.finishedBooksByMonthWebnovels) {
       if (bookReadStat.year == year) {
         finishedBooksByMonthWebnovels = bookReadStat.values;
