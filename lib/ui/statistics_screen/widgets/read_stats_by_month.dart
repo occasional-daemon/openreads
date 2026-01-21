@@ -12,6 +12,7 @@ class ReadStatsByMonth extends StatelessWidget {
     required this.listHardcoverBooks,
     required this.listEbooks,
     required this.listAudiobooks,
+    required this.listWebnovels,
     required this.title,
     required this.theme,
   });
@@ -20,6 +21,7 @@ class ReadStatsByMonth extends StatelessWidget {
   final List<int> listHardcoverBooks;
   final List<int> listEbooks;
   final List<int> listAudiobooks;
+  final List<int> listWebnovels;
   final String title;
   final ThemeData theme;
 
@@ -137,7 +139,8 @@ class ReadStatsByMonth extends StatelessWidget {
               toY: (listPaperbackBooks[i] +
                       listHardcoverBooks[i] +
                       listEbooks[i] +
-                      listAudiobooks[i])
+                      listAudiobooks[i] +
+                      listWebnovels[i])
                   .toDouble(),
               width: 15,
               backDrawRodData: BackgroundBarChartRodData(
@@ -180,13 +183,30 @@ class ReadStatsByMonth extends StatelessWidget {
                         theme.colorScheme.tertiaryContainer,
                       )
                     : BarChartRodStackItem(0, 0, Colors.transparent),
+                listWebnovels[i] != 0
+                    ? BarChartRodStackItem(
+                        (listPaperbackBooks[i] +
+                                listHardcoverBooks[i] +
+                                listEbooks[i] +
+                                listAudiobooks[i])
+                            .toDouble(),
+                        (listPaperbackBooks[i] +
+                                listHardcoverBooks[i] +
+                                listEbooks[i] +
+                                listAudiobooks[i] +
+                                listWebnovels[i])
+                            .toDouble(),
+                        theme.colorScheme.secondary,
+                      )
+                    : BarChartRodStackItem(0, 0, Colors.transparent),
               ],
             )
           ],
           showingTooltipIndicators: ((listPaperbackBooks[i] +
                       listHardcoverBooks[i] +
                       listEbooks[i] +
-                      listAudiobooks[i]) >
+                      listAudiobooks[i] +
+                      listWebnovels[i]) >
                   0)
               ? [0]
               : [1],
@@ -204,12 +224,14 @@ class ReadStatsByMonth extends StatelessWidget {
       if ((listPaperbackBooks[i] +
               listHardcoverBooks[i] +
               listEbooks[i] +
-              listAudiobooks[i]) >
+              listAudiobooks[i] +
+              listWebnovels[i]) >
           maxBooksInMonth) {
         maxBooksInMonth = (listPaperbackBooks[i] +
             listHardcoverBooks[i] +
             listEbooks[i] +
-            listAudiobooks[i]);
+            listAudiobooks[i] +
+            listWebnovels[i]);
       }
     }
 
@@ -279,6 +301,12 @@ class ReadStatsByMonth extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 5),
+                ChartLegendElement(
+                  color: theme.colorScheme.secondary,
+                  text: LocaleKeys.book_format_webnovel_plural.tr(),
+                  number: listWebnovels.sum,
+                ),
                 const SizedBox(height: 5),
                 ChartLegendElement(
                   color: theme.colorScheme.tertiaryContainer,

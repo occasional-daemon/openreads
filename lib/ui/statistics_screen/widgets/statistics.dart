@@ -293,6 +293,7 @@ class Statistics extends StatelessWidget {
     List<int> finishedBooksByMonthHardcoverBooks = emptyList;
     List<int> finishedBooksByMonthEbooks = emptyList;
     List<int> finishedBooksByMonthAudiobooks = emptyList;
+    List<int> finishedBooksByMonthWebnovels = emptyList;
 
     for (var bookReadStat in state.finishedBooksByMonthPaperbackBooks) {
       if (bookReadStat.year == year) {
@@ -317,6 +318,12 @@ class Statistics extends StatelessWidget {
         finishedBooksByMonthAudiobooks = bookReadStat.values;
       }
     }
+    
+    for (var bookReadStat in state.finishedBooksByMonthWebnovels) {
+      if (bookReadStat.year == year) {
+        finishedBooksByMonthWebnovels = bookReadStat.values;
+      }
+    }
 
     if (state.finishedBooksByMonthAllTypes.isEmpty) {
       return const SizedBox();
@@ -328,6 +335,7 @@ class Statistics extends StatelessWidget {
       listHardcoverBooks: finishedBooksByMonthHardcoverBooks,
       listEbooks: finishedBooksByMonthEbooks,
       listAudiobooks: finishedBooksByMonthAudiobooks,
+      listWebnovels: finishedBooksByMonthWebnovels,
       theme: Theme.of(context),
     );
   }
@@ -343,6 +351,7 @@ class Statistics extends StatelessWidget {
     List<int> finishedPagesByMonthHardcoverBooks = emptyList;
     List<int> finishedPagesByMonthEbooks = emptyList;
     List<int> finishedPagesByMonthAudiobooks = emptyList;
+    List<int> finishedPagesByMonthWebnovels = emptyList;
 
     for (var bookReadStat in state.finishedPagesByMonthPaperbackBooks) {
       if (bookReadStat.year == year) {
@@ -364,6 +373,11 @@ class Statistics extends StatelessWidget {
         finishedPagesByMonthAudiobooks = bookReadStat.values;
       }
     }
+    for (var bookReadStat in state.finishedPagesByMonthWebnovels) {
+      if (bookReadStat.year == year) {
+        finishedPagesByMonthWebnovels = bookReadStat.values;
+      }
+    }
 
     if (state.finishedPagesByMonthAllTypes.isEmpty) {
       return const SizedBox();
@@ -375,6 +389,7 @@ class Statistics extends StatelessWidget {
       listHardcoverBooks: finishedPagesByMonthHardcoverBooks,
       listEbooks: finishedPagesByMonthEbooks,
       listAudiobooks: finishedPagesByMonthAudiobooks,
+      listWebnovels: finishedPagesByMonthWebnovels,
       theme: Theme.of(context),
     );
   }
