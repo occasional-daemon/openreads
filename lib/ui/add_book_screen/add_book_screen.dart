@@ -628,7 +628,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
                         if (result.type == ResultType.Barcode) {
                           setState(() {
-                            _isbnCtrl.text = result.rawContent;
+                            _isbnCtrl.text =
+                                _isbnMask.maskText(result.rawContent);
                           });
                         }
                       },
