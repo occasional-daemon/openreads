@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feat-add-webnovel-type
   pull_request:
     branches:
       - master
