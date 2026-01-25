@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:openreads/core/constants/constants.dart';
 import 'package:openreads/core/constants/enums/enums.dart';
@@ -63,6 +64,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
   final _myReviewCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
 
+  // add mask formatters for special fields
+  final _isbnMask = MaskTextInputFormatter(
+      mask: '###-#-###-#####-#',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
   final _animDuration = const Duration(milliseconds: 250);
 
   bool _isCoverDownloading = false;
@@ -86,7 +93,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _pubYearCtrl.text = (book.publicationYear ?? '').toString();
     _pagesCtrl.text = (book.pages ?? '').toString();
     _descriptionCtrl.text = book.description ?? '';
-    _isbnCtrl.text = book.isbn ?? '';
+    _isbnCtrl.text = book.isbn != null ? _isbnMask.maskText(book.isbn!) : '';
     _olidCtrl.text = book.olid ?? '';
     _myReviewCtrl.text = book.myReview ?? '';
     _notesCtrl.text = book.notes ?? '';
@@ -354,7 +361,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
     });
 
     _isbnCtrl.addListener(() {
-      context.read<EditBookCubit>().setISBN(_isbnCtrl.text);
+      context
+          .read<EditBookCubit>()
+          .setISBN(_isbnMask.unmaskText(_isbnCtrl.text));
     });
 
     _olidCtrl.addListener(() {
@@ -590,6 +599,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         textCapitalization: TextCapitalization.characters,
                         keyboardType: TextInputType.text,
                         maxLength: 20,
+                        inputFormatters: <TextInputFormatter>[_isbnMask],
                       ),
                     ),
                     InkWell(
