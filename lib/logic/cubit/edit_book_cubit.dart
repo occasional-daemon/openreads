@@ -78,6 +78,12 @@ class EditBookCubit extends Cubit<Book> {
     emit(book);
   }
 
+  void setURL(String url) {
+    final book = state.copyWith();
+    book.url = url.isNotEmpty ? url : null;
+    emit(book);
+  }
+
   void setPublicationYear(String publicationYear) {
     final book = state.copyWith();
     book.publicationYear =

@@ -140,6 +140,7 @@ class BookScreen extends StatelessWidget {
                       _buildPagesDetail(state),
                       _buildISBNDetail(state),
                       _buildOLIDDetail(state),
+                      _buildURLDetail(state),
                       const SizedBox(height: 50),
                       _buildDescriptionDetail(state),
                       _buildMyReviewDetail(state),
@@ -205,6 +206,15 @@ class BookScreen extends StatelessWidget {
         ? BookDetail(
             title: LocaleKeys.isbn.tr(),
             text: (state.isbn ?? "").toString(),
+          )
+        : const SizedBox();
+  }
+
+  Widget _buildURLDetail(Book state) {
+    return (state.url != null)
+        ? BookDetail(
+            title: LocaleKeys.url.tr(),
+            text: (state.url ?? "").toString(),
           )
         : const SizedBox();
   }

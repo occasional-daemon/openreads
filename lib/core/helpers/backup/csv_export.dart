@@ -105,6 +105,7 @@ class CSVExport {
         ('publication_year'),
         ('isbn'),
         ('olid'),
+        ('url'),
         ('tags'),
         ('my_review'),
         ('notes'),
@@ -143,6 +144,7 @@ class CSVExport {
             : '');
         newRow.add(book.isbn ?? '');
         newRow.add(book.olid ?? '');
+        newRow.add(book.url ?? '');
         newRow.add(book.tags ?? '');
         newRow.add(book.myReview ?? '');
         newRow.add(book.notes ?? '');

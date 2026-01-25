@@ -60,6 +60,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   final _descriptionCtrl = TextEditingController();
   final _isbnCtrl = TextEditingController();
   final _olidCtrl = TextEditingController();
+  final _urlCtrl = TextEditingController();
   final _tagsCtrl = TextEditingController();
   final _myReviewCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
@@ -95,6 +96,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _descriptionCtrl.text = book.description ?? '';
     _isbnCtrl.text = book.isbn != null ? _isbnMask.maskText(book.isbn!) : '';
     _olidCtrl.text = book.olid ?? '';
+    _urlCtrl.text = book.url ?? '';
     _myReviewCtrl.text = book.myReview ?? '';
     _notesCtrl.text = book.notes ?? '';
 
@@ -370,6 +372,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
       context.read<EditBookCubit>().setOLID(_olidCtrl.text);
     });
 
+    _urlCtrl.addListener(() {
+      context.read<EditBookCubit>().setURL(_urlCtrl.text);
+    });
+
     _pubYearCtrl.addListener(() {
       context.read<EditBookCubit>().setPublicationYear(_pubYearCtrl.text);
     });
@@ -430,6 +436,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     _descriptionCtrl.dispose();
     _isbnCtrl.dispose();
     _olidCtrl.dispose();
+    _urlCtrl.dispose();
     _tagsCtrl.dispose();
     _myReviewCtrl.dispose();
     _notesCtrl.dispose();
@@ -654,6 +661,14 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   keyboardType: TextInputType.text,
                   maxLength: 20,
                   textCapitalization: TextCapitalization.characters,
+                ),
+                const SizedBox(height: 10),
+                BookTextField(
+                  controller: _urlCtrl,
+                  hint: LocaleKeys.url.tr(),
+                  icon: FontAwesomeIcons.at,
+                  keyboardType: TextInputType.text,
+                  maxLength: 512,
                 ),
                 const SizedBox(height: 10),
                 StreamBuilder<List<String>>(

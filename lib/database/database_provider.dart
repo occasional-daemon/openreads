@@ -37,7 +37,7 @@ class DatabaseProvider {
 
     return await openDatabase(
       path,
-      version: 8,
+      version: 9,
       onCreate: (Database db, int version) async {
         await db.execute("CREATE TABLE booksTable ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -56,6 +56,7 @@ class DatabaseProvider {
             "publication_year INTEGER, "
             "isbn TEXT, "
             "olid TEXT, "
+            "url TEXT, "
             "tags TEXT, "
             "my_review TEXT, "
             "notes TEXT, "
@@ -91,6 +92,9 @@ class DatabaseProvider {
               break;
             case 7:
               _updateBookDatabaseV7toLatest(batch);
+              break;
+            case 8:
+              _updateBookDatabaseV8toLatest(batch);
               break;
           }
 
@@ -137,6 +141,10 @@ class DatabaseProvider {
     "ALTER TABLE booksTable ADD date_modified TEXT DEFAULT '${DateTime.now().toIso8601String()}'",
   ];
 
+  final migrationScriptsV9 = [
+    "ALTER TABLE booksTable ADD url TEXT",
+  ];
+
   void _updateBookDatabaseV1toLatest(Batch batch) {
     _executeBatch(
       batch,
@@ -146,7 +154,8 @@ class DatabaseProvider {
           migrationScriptsV5 +
           migrationScriptsV6 +
           migrationScriptsV7 +
-          migrationScriptsV8,
+          migrationScriptsV8 +
+          migrationScriptsV9,
     );
   }
 
@@ -158,7 +167,8 @@ class DatabaseProvider {
           migrationScriptsV5 +
           migrationScriptsV6 +
           migrationScriptsV7 +
-          migrationScriptsV8,
+          migrationScriptsV8 +
+          migrationScriptsV9,
     );
   }
 
@@ -169,7 +179,8 @@ class DatabaseProvider {
           migrationScriptsV5 +
           migrationScriptsV6 +
           migrationScriptsV7 +
-          migrationScriptsV8,
+          migrationScriptsV8 +
+          migrationScriptsV9,
     );
   }
 
@@ -179,7 +190,8 @@ class DatabaseProvider {
       migrationScriptsV5 +
           migrationScriptsV6 +
           migrationScriptsV7 +
-          migrationScriptsV8,
+          migrationScriptsV8 +
+          migrationScriptsV9,
     );
   }
 
@@ -201,6 +213,13 @@ class DatabaseProvider {
     _executeBatch(
       batch,
       migrationScriptsV8,
+    );
+  }
+
+  void _updateBookDatabaseV8toLatest(Batch batch) {
+    _executeBatch(
+      batch,
+      migrationScriptsV9,
     );
   }
 }

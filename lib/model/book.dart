@@ -23,6 +23,7 @@ class Book {
   int? publicationYear;
   String? isbn;
   String? olid;
+  String? url;
   String? tags;
   String? myReview;
   String? notes;
@@ -48,6 +49,7 @@ class Book {
     this.publicationYear,
     this.isbn,
     this.olid,
+    this.url,
     this.tags,
     this.myReview,
     this.notes,
@@ -98,6 +100,7 @@ class Book {
       publicationYear: json['publication_year'],
       isbn: json['isbn'],
       olid: json['olid'],
+      url: json['url'],
       tags: json['tags'],
       myReview: json['my_review'],
       notes: json['notes'],
@@ -140,6 +143,7 @@ class Book {
     int? publicationYear,
     String? isbn,
     String? olid,
+    String? url,
     String? tags,
     String? myReview,
     String? notes,
@@ -165,6 +169,7 @@ class Book {
       publicationYear: publicationYear ?? this.publicationYear,
       isbn: isbn ?? this.isbn,
       olid: olid ?? this.olid,
+      url: url ?? this.url,
       tags: tags ?? this.tags,
       myReview: myReview ?? this.myReview,
       notes: notes ?? this.notes,
@@ -193,6 +198,7 @@ class Book {
       publicationYear: publicationYear,
       isbn: isbn,
       olid: olid,
+      url: url,
       tags: tags,
       myReview: myReview,
       notes: notes,
@@ -277,6 +283,7 @@ class Book {
       'publication_year': publicationYear,
       'isbn': isbn,
       'olid': olid,
+      'url': url,
       'tags': tags,
       'my_review': myReview,
       'notes': notes,

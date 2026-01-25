@@ -95,6 +95,7 @@ class CSVImportOpenreads {
         publicationYear: _getPublicationYear(i, csv),
         isbn: _getISBN(i, csv),
         olid: _getOLID(i, csv),
+        url: _getURL(i, csv),
         tags: _getTags(i, csv),
         myReview: _getField(i, csv, 'my_review'),
         notes: _getField(i, csv, 'notes'),
@@ -125,6 +126,16 @@ class CSVImportOpenreads {
 
     if (olid.isNotEmpty) {
       return olid;
+    } else {
+      return null;
+    }
+  }
+
+  static String? _getURL(int i, List<List<dynamic>> csv) {
+    final url = csv[i][csv[0].indexOf('url')].toString();
+
+    if (url.isNotEmpty) {
+      return url;
     } else {
       return null;
     }
@@ -247,6 +258,8 @@ class CSVImportOpenreads {
       return BookFormat.ebook;
     } else if (bookFormat == 'audiobook') {
       return BookFormat.audiobook;
+    } else if (bookFormat == 'webnovel') {
+      return BookFormat.webnovel;
     } else {
       return BookFormat.paperback;
     }
