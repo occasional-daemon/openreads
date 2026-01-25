@@ -44,6 +44,12 @@ jobs:
 
     - name: Build APK
       run: flutter build -v apk
+      
+    - name: Store artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
 
   android_appbundle_build:
     name: Android appbundle
@@ -79,6 +85,13 @@ jobs:
 
     - name: Build appbundle
       run: flutter build -v appbundle
+
+    - name: Store artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-appbundle
+        path: build/app/outputs/bundle/release/app-release.aab
+
 
   ios_build:
     name: iOS ipa
