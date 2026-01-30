@@ -346,7 +346,8 @@ class SettingsApperanceScreen extends StatelessWidget {
                   text: LocaleKeys.rating_only_finished.tr(),
                   onPressed: () {
                     BlocProvider.of<RatingAnywhereBloc>(context).add(
-                      const RatingAnywhereChange(ratingAnywhere: RatingAnywhere.finished),
+                      const RatingAnywhereChange(
+                          ratingAnywhere: RatingAnywhere.finished),
                     );
 
                     Navigator.of(context).pop();
@@ -357,7 +358,8 @@ class SettingsApperanceScreen extends StatelessWidget {
                   text: LocaleKeys.rating_all_books.tr(),
                   onPressed: () {
                     BlocProvider.of<RatingAnywhereBloc>(context).add(
-                      const RatingAnywhereChange(ratingAnywhere: RatingAnywhere.all),
+                      const RatingAnywhereChange(
+                          ratingAnywhere: RatingAnywhere.all),
                     );
 
                     Navigator.of(context).pop();

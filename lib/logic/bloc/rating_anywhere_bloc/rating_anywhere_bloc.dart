@@ -5,7 +5,8 @@ import 'package:openreads/core/constants/enums/enums.dart';
 part 'rating_anywhere_event.dart';
 part 'rating_anywhere_state.dart';
 
-class RatingAnywhereBloc extends HydratedBloc<RatingAnywhereEvent, RatingAnywhereState> {
+class RatingAnywhereBloc
+    extends HydratedBloc<RatingAnywhereEvent, RatingAnywhereState> {
   RatingAnywhereBloc() : super(RatingAnywhereFinished()) {
     on<RatingAnywhereChange>((event, emit) {
       if (event.ratingAnywhere == RatingAnywhere.all) {
