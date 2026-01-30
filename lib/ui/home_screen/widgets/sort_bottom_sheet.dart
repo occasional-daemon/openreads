@@ -15,6 +15,7 @@ import 'package:openreads/logic/bloc/sort_bloc/sort_for_later_books_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_in_progress_books_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_state.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_unfinished_books_bloc.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/logic/cubit/book_lists_order_cubit.dart';
 import 'package:openreads/logic/cubit/books_tab_index_cubit.dart';
 import 'package:openreads/main.dart';
@@ -27,7 +28,11 @@ class SortBottomSheet extends StatefulWidget {
   State<SortBottomSheet> createState() => _SortBottomSheetState();
 }
 
-List<SortType> _getValidSortOptions(BookStatus bookStatus) {
+List<SortType> _getValidSortOptions(
+    BookStatus bookStatus, BuildContext context) {
+  // BlocBuilder<RatingAnywhereBloc, RatingAnywhereState>(
+  // builder: (context, state) {
+  final state = BlocProvider.of<RatingAnywhereBloc>(context).state;
   switch (bookStatus) {
     case BookStatus.read:
       return [
@@ -45,6 +50,7 @@ List<SortType> _getValidSortOptions(BookStatus bookStatus) {
       return [
         SortType.byTitle,
         SortType.byAuthor,
+        if (state is RatingAnywhereAll) SortType.byRating,
         SortType.byPages,
         SortType.byStartDate,
         SortType.byPublicationYear,
@@ -55,6 +61,7 @@ List<SortType> _getValidSortOptions(BookStatus bookStatus) {
       return [
         SortType.byTitle,
         SortType.byAuthor,
+        if (state is RatingAnywhereAll) SortType.byRating,
         SortType.byPages,
         SortType.byPublicationYear,
         SortType.byDateAdded,
@@ -64,6 +71,7 @@ List<SortType> _getValidSortOptions(BookStatus bookStatus) {
       return [
         SortType.byTitle,
         SortType.byAuthor,
+        if (state is RatingAnywhereAll) SortType.byRating,
         SortType.byPages,
         SortType.byStartDate,
         SortType.byPublicationYear,
@@ -71,6 +79,7 @@ List<SortType> _getValidSortOptions(BookStatus bookStatus) {
         SortType.byDateModified,
       ];
   }
+  // });
 }
 
 String _getSortDropdownText(SortType sortType) {
@@ -359,24 +368,24 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                         case BookStatus.read:
                           return BlocBuilder<SortFinishedBooksBloc, SortState>(
                             builder: (context, state) =>
-                                _buildBody(BookStatus.read, state),
+                                _buildBody(BookStatus.read, state, context),
                           );
                         case BookStatus.inProgress:
                           return BlocBuilder<SortInProgressBooksBloc,
                               SortState>(
-                            builder: (context, state) =>
-                                _buildBody(BookStatus.inProgress, state),
+                            builder: (context, state) => _buildBody(
+                                BookStatus.inProgress, state, context),
                           );
                         case BookStatus.forLater:
                           return BlocBuilder<SortForLaterBooksBloc, SortState>(
                             builder: (context, state) =>
-                                _buildBody(BookStatus.forLater, state),
+                                _buildBody(BookStatus.forLater, state, context),
                           );
                         case BookStatus.unfinished:
                           return BlocBuilder<SortUnfinishedBooksBloc,
                               SortState>(
-                            builder: (context, state) =>
-                                _buildBody(BookStatus.unfinished, state),
+                            builder: (context, state) => _buildBody(
+                                BookStatus.unfinished, state, context),
                           );
                       }
                     },
@@ -390,7 +399,8 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
     );
   }
 
-  Widget _buildBody(BookStatus bookStatus, SortState sortState) {
+  Widget _buildBody(
+      BookStatus bookStatus, SortState sortState, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -400,7 +410,7 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
           style: const TextStyle(fontSize: 16),
         ),
         const SizedBox(height: 5),
-        _buildSortDropdown(bookStatus, sortState),
+        _buildSortDropdown(bookStatus, sortState, context),
         const SizedBox(height: 5),
         if (bookStatus == BookStatus.read)
           _buildOnlyFavouriteSwitch(bookStatus, sortState.onlyFavourite),
@@ -611,7 +621,8 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
     );
   }
 
-  Row _buildSortDropdown(BookStatus bookStatus, SortState sortState) {
+  Row _buildSortDropdown(
+      BookStatus bookStatus, SortState sortState, BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -626,7 +637,7 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                   borderRadius: BorderRadius.circular(cornerRadius),
                 ),
               ),
-              items: _getValidSortOptions(bookStatus)
+              items: _getValidSortOptions(bookStatus, context)
                   .map(
                     (item) => DropdownMenuItem<SortType>(
                       value: item,
