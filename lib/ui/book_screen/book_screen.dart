@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openreads/core/constants/enums/enums.dart';
 import 'package:openreads/generated/locale_keys.g.dart';
 import 'package:openreads/logic/cubit/current_book_cubit.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/main.dart';
 import 'package:openreads/model/book.dart';
 import 'package:openreads/model/reading.dart';
@@ -124,8 +125,10 @@ class BookScreen extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: const BookScreenAppBar(),
-        body: BlocBuilder<CurrentBookCubit, Book>(
-          builder: (context, state) {
+        body: Builder(
+          builder: (context) {
+            final state = context.watch<CurrentBookCubit>().state;
+            final rating_anywhere = context.watch<RatingAnywhereBloc>().state;
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -134,7 +137,11 @@ class BookScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTitleDetail(state),
-                      _buildStatusDetail(state, context),
+                      _buildStatusDetail(
+                          state,
+                          context,
+                          (state.status == BookStatus.read) ||
+                              (rating_anywhere is RatingAnywhereAll)),
                       _buildBookFormatDetail(state),
                       _buildPublicationYearDetail(state),
                       _buildPagesDetail(state),
@@ -277,7 +284,8 @@ class BookScreen extends StatelessWidget {
     );
   }
 
-  BookStatusDetail _buildStatusDetail(Book state, BuildContext context) {
+  BookStatusDetail _buildStatusDetail(
+      Book state, BuildContext context, bool showRatingAndLike) {
     return BookStatusDetail(
       book: state,
       statusIcon: _decideStatusIcon(state.status),
@@ -300,7 +308,7 @@ class BookScreen extends StatelessWidget {
           state,
         );
       },
-      showRatingAndLike: state.status == BookStatus.read,
+      showRatingAndLike: showRatingAndLike,
     );
   }
 }

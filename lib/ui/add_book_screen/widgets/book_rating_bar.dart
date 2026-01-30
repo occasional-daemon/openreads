@@ -5,6 +5,7 @@ import 'package:openreads/core/constants/constants.dart';
 import 'package:openreads/core/constants/enums/enums.dart';
 import 'package:openreads/core/themes/app_theme.dart';
 import 'package:openreads/logic/cubit/edit_book_cubit.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/model/book.dart';
 
 class BookRatingBar extends StatelessWidget {
@@ -17,15 +18,18 @@ class BookRatingBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EditBookCubit, Book>(
-      builder: (context, state) {
+    return Builder(
+      builder: (context) {
+        final state = context.watch<EditBookCubit>().state;
+        final rating_anywhere = context.watch<RatingAnywhereBloc>().state;
         return Column(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: AnimatedContainer(
                 duration: animDuration,
-                height: (state.status == BookStatus.read)
+                height: ((state.status == BookStatus.read) ||
+                        (rating_anywhere is RatingAnywhereAll))
                     ? Constants.formHeight
                     : 0,
                 child: Container(
