@@ -20,6 +20,7 @@ import 'package:openreads/logic/bloc/migration_v1_to_v2_bloc/migration_v1_to_v2_
 import 'package:openreads/logic/bloc/open_lib_bloc/open_lib_bloc.dart';
 import 'package:openreads/logic/bloc/open_library_search_bloc/open_library_search_bloc.dart';
 import 'package:openreads/logic/bloc/rating_type_bloc/rating_type_bloc.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_finished_books_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_for_later_books_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_in_progress_books_bloc.dart';
@@ -114,6 +115,7 @@ class App extends StatelessWidget {
       BlocProvider(create: (_) => BooksTabIndexCubit()),
       BlocProvider(create: (_) => WelcomeBloc()),
       BlocProvider(create: (_) => RatingTypeBloc()),
+      BlocProvider(create: (_) => RatingAnywhereBloc()),
       BlocProvider(create: (_) => MigrationV1ToV2Bloc()),
     ];
 

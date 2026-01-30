@@ -1,4 +1,8 @@
 {
+    "select_rating_local_global": "Select whether ratings should be available only for finished books or for all",
+    "rating_anywhere": "Show ratings for all/finished books",
+    "rating_only_finished": "Show rating only for finished books",
+    "rating_all_books": "Show rating for books of all status",
     "books_finished": "Finished",
     "books_in_progress": "In progress",
     "books_for_later": "For later",

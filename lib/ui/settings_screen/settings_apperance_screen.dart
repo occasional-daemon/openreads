@@ -7,6 +7,7 @@ import 'package:openreads/core/constants/enums/enums.dart';
 import 'package:openreads/core/themes/app_theme.dart';
 import 'package:openreads/generated/locale_keys.g.dart';
 import 'package:openreads/logic/bloc/rating_type_bloc/rating_type_bloc.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/logic/bloc/theme_bloc/theme_bloc.dart';
 import 'package:openreads/ui/settings_screen/settings_accent_screen.dart';
 import 'package:openreads/ui/settings_screen/widgets/widgets.dart';
@@ -315,6 +316,61 @@ class SettingsApperanceScreen extends StatelessWidget {
     );
   }
 
+  _showRatingAnywhereDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(cornerRadius),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    LocaleKeys.select_rating_local_global.tr(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                SettingsDialogButton(
+                  text: LocaleKeys.rating_only_finished.tr(),
+                  onPressed: () {
+                    BlocProvider.of<RatingAnywhereBloc>(context).add(
+                      const RatingAnywhereChange(ratingAnywhere: RatingAnywhere.finished),
+                    );
+
+                    Navigator.of(context).pop();
+                  },
+                ),
+                const SizedBox(height: 5),
+                SettingsDialogButton(
+                  text: LocaleKeys.rating_all_books.tr(),
+                  onPressed: () {
+                    BlocProvider.of<RatingAnywhereBloc>(context).add(
+                      const RatingAnywhereChange(ratingAnywhere: RatingAnywhere.all),
+                    );
+
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -353,6 +409,7 @@ class SettingsApperanceScreen extends StatelessWidget {
                   _buildDarkModeSetting(context),
                   _buildFontSetting(context),
                   _buildRatingTypeSetting(context),
+                  _buildRatingAnywhereSetting(context),
                 ],
               ),
             ],
@@ -494,6 +551,36 @@ class SettingsApperanceScreen extends StatelessWidget {
         },
       ),
       onPressed: (context) => _showRatingBarDialog(context),
+    );
+  }
+
+  SettingsTile _buildRatingAnywhereSetting(BuildContext context) {
+    return SettingsTile(
+      title: Text(
+        LocaleKeys.rating_anywhere.tr(),
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      ),
+      leading: const Icon(Icons.star_rounded),
+      description: BlocBuilder<RatingAnywhereBloc, RatingAnywhereState>(
+        builder: (_, state) {
+          if (state is RatingAnywhereFinished) {
+            return Text(
+              LocaleKeys.rating_only_finished.tr(),
+              style: const TextStyle(),
+            );
+          } else if (state is RatingAnywhereAll) {
+            return Text(
+              LocaleKeys.rating_all_books.tr(),
+              style: const TextStyle(),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
+      onPressed: (context) => _showRatingAnywhereDialog(context),
     );
   }
 

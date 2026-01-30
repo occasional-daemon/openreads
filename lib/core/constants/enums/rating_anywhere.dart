@@ -1,0 +1,4 @@
+enum RatingAnywhere {
+  finished,
+  all,
+}
