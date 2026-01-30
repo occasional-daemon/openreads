@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:openreads/core/constants/enums/enums.dart';
 import 'package:openreads/logic/bloc/rating_type_bloc/rating_type_bloc.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/logic/cubit/display_cubit.dart';
 import 'package:openreads/model/book.dart';
 
@@ -120,9 +121,17 @@ class BookCardListCompact extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              book.status == BookStatus.read
-                  ? _buildRating(context)
-                  : const SizedBox(),
+              BlocBuilder<RatingAnywhereBloc, RatingAnywhereState>(
+                builder: (_, state) {
+                  if (state is RatingAnywhereAll) {
+                    return _buildRating(context);
+                  } else {
+                    return book.status == BookStatus.read
+                        ? _buildRating(context)
+                        : const SizedBox();
+                  }
+                },
+              ),
             ],
           ),
         ],
