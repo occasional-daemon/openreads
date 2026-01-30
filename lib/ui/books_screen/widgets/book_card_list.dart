@@ -9,6 +9,7 @@ import 'package:openreads/core/constants/enums/enums.dart';
 import 'package:openreads/core/helpers/helpers.dart';
 import 'package:openreads/generated/locale_keys.g.dart';
 import 'package:openreads/logic/bloc/rating_type_bloc/rating_type_bloc.dart';
+import 'package:openreads/logic/bloc/rating_anywhere_bloc/rating_anywhere_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_finished_books_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_for_later_books_bloc.dart';
 import 'package:openreads/logic/bloc/sort_bloc/sort_in_progress_books_bloc.dart';
@@ -324,9 +325,17 @@ class BookCardList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              book.status == BookStatus.read
-                  ? _buildRating(context)
-                  : const SizedBox(),
+              BlocBuilder<RatingAnywhereBloc, RatingAnywhereState>(
+                builder: (_, state) {
+                  if (state is RatingAnywhereAll) {
+                    return _buildRating(context);
+                  } else {
+                    return book.status == BookStatus.read
+                        ? _buildRating(context)
+                        : const SizedBox();
+                  }
+                },
+              ),
               _buildSortAttribute(),
             ],
           ),
