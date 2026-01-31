@@ -136,7 +136,6 @@ abstract class LocaleKeys {
   static const seletct_rating_type = 'seletct_rating_type';
   static const rating_as_bar = 'rating_as_bar';
   static const rating_as_number = 'rating_as_number';
-  static const select_rating_local_global = 'select_rating_local_global';
   static const rating_anywhere = 'rating_anywhere';
   static const rating_only_finished = 'rating_only_finished';
   static const rating_all_books = 'rating_all_books';
