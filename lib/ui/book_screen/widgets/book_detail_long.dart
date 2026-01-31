@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:openreads/core/themes/app_theme.dart';
 
@@ -40,6 +41,15 @@ class BookDetailLong extends StatelessWidget {
                   // to support non-md style single linebreaks
                   // and provide backward compatibility
                   data: text.replaceAll("\n", "  \n"),
+                  onTapLink: (_, url, __) {
+                    launchUrl(Uri.parse(url!));
+                  },
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 )
               : Text(
                   text,
