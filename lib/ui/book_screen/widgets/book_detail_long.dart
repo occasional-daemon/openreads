@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 import 'package:openreads/core/themes/app_theme.dart';
 
@@ -7,10 +8,12 @@ class BookDetailLong extends StatelessWidget {
     super.key,
     required this.title,
     required this.text,
+    this.render_md = false,
   });
 
   final String title;
   final String text;
+  final bool render_md;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +34,21 @@ class BookDetailLong extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface.withAlpha(25),
           ),
           const SizedBox(height: 5),
-          Text(
-            text,
-            textAlign: TextAlign.justify,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
+          render_md
+              ? MarkdownBody(
+                  // replace nl with space-space-nl
+                  // to support non-md style single linebreaks
+                  // and provide backward compatibility
+                  data: text.replaceAll("\n", "  \n"),
+                )
+              : Text(
+                  text,
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
         ],
       ),
     );

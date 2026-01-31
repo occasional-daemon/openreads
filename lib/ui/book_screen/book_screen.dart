@@ -177,6 +177,7 @@ class BookScreen extends StatelessWidget {
         ? BookDetailLong(
             title: LocaleKeys.notes.tr(),
             text: state.notes!,
+            render_md: true,
           )
         : const SizedBox();
   }
@@ -186,6 +187,7 @@ class BookScreen extends StatelessWidget {
         ? BookDetailLong(
             title: LocaleKeys.my_review.tr(),
             text: state.myReview!,
+            render_md: true,
           )
         : const SizedBox();
   }
@@ -195,6 +197,7 @@ class BookScreen extends StatelessWidget {
         ? BookDetailLong(
             title: LocaleKeys.description.tr(),
             text: state.description!,
+            render_md: true,
           )
         : const SizedBox();
   }

@@ -72,6 +72,7 @@ dependencies:
   blurhash_ffi: ^1.2.7
   xdg_directories: ^1.1.0
   mask_text_input_formatter: ^2.9.0
+  flutter_markdown_plus: ^1.0.7
 
 dev_dependencies:
   flutter_test:
