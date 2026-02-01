@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:async';
+import 'dart:convert';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -15,6 +17,7 @@ import 'package:openreads/core/constants/constants.dart';
 import 'package:openreads/core/constants/locale.dart';
 import 'package:openreads/core/helpers/locale_delegates/locale_delegates.dart';
 import 'package:openreads/core/helpers/old_android_http_overrides.dart';
+import 'package:openreads/core/helpers/backup/backup.dart';
 import 'package:openreads/logic/bloc/challenge_bloc/challenge_bloc.dart';
 import 'package:openreads/logic/bloc/migration_v1_to_v2_bloc/migration_v1_to_v2_bloc.dart';
 import 'package:openreads/logic/bloc/open_lib_bloc/open_lib_bloc.dart';
@@ -36,11 +39,14 @@ import 'package:openreads/logic/cubit/default_book_tags_cubit.dart';
 import 'package:openreads/logic/cubit/display_cubit.dart';
 import 'package:openreads/logic/cubit/edit_book_cubit.dart';
 import 'package:openreads/logic/cubit/selected_books_cubit.dart';
+import 'package:openreads/model/book.dart';
 import 'package:openreads/resources/connectivity_service.dart';
 import 'package:openreads/resources/open_library_service.dart';
+import 'package:openreads/generated/locale_keys.g.dart';
 import 'package:openreads/ui/home_screen/home_screen.dart';
 import 'package:openreads/ui/welcome_screen/welcome_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:app_links/app_links.dart';
 
 late BookCubit bookCubit;
 late Directory appDocumentsDirectory;
@@ -195,6 +201,7 @@ class OpenreadsApp extends StatefulWidget {
 class _OpenreadsAppState extends State<OpenreadsApp>
     with WidgetsBindingObserver {
   late bool showWelcomeScreen;
+  StreamSubscription<Uri>? linkSub;
 
   _decideWelcomeMode(WelcomeState welcomeState) {
     if (welcomeState is ShowWelcomeState) {
@@ -211,6 +218,36 @@ class _OpenreadsAppState extends State<OpenreadsApp>
     super.initState();
 
     _decideWelcomeMode(widget.welcomeState);
+
+    // initialize app link handling
+    // format is
+    // openreads://book.get/#{b64url}
+    // Covers are not yet supported
+    linkSub = AppLinks().uriLinkStream.listen((uri) {
+      print("Import book from URI: ${uri}");
+      try {
+        // only use url-safe b64
+        final decoded = base64Url.decode(uri.fragment);
+        // text is utf-8 to support all locales
+        final utf8decoded = utf8.decode(decoded);
+        final jsonDecoded = jsonDecode(utf8decoded);
+        // sanitize for safety. Ideally not needed to sent along.
+        jsonDecoded['id'] = null;
+        jsonDecoded['has_cover'] = 0;
+        final newBook = Book.fromJSON(jsonDecoded);
+        bookCubit.addBook(newBook);
+        BackupGeneral.showInfoSnackbar(LocaleKeys.book_import_success
+            .tr(namedArgs: {'title': newBook.title}));
+      } catch (e) {
+        BackupGeneral.showInfoSnackbar(e.toString());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    linkSub?.cancel();
+    super.dispose();
   }
 
   @override

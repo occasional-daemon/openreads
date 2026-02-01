@@ -1,6 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
 abstract class LocaleKeys {
+  static const book_import_success = 'book_import_success';
   static const books_finished = 'books_finished';
   static const books_in_progress = 'books_in_progress';
   static const books_for_later = 'books_for_later';

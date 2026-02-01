@@ -1,4 +1,5 @@
 {
+    "book_import_success": "Successfully imported '{title}'",
     "rating_anywhere": "Visibility of ratings",
     "rating_only_finished": "Show rating only for finished books",
     "rating_all_books": "Show rating for all books",
