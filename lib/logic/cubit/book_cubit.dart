@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:openreads/core/constants/constants.dart';
 import 'package:openreads/logic/cubit/current_book_cubit.dart';
 import 'package:openreads/main.dart';
@@ -344,6 +345,34 @@ class BookCubit extends Cubit {
     ));
 
     return true;
+  }
+
+  Future<bool> downloadCoverByURL(Book book, Uri url) async {
+    try {
+      // get from remote
+      final response = await get(url);
+
+      // If the response is less than 500 bytes,
+      // probably the cover is not available
+      if (response.bodyBytes.length < 500) return false;
+
+      // save and update book
+      final file = File('${appDocumentsDirectory.path}/${book.id}.jpg');
+      await file.writeAsBytes(response.bodyBytes);
+
+      final blurHash = _generateBlurHash(response.bodyBytes);
+
+      await bookCubit.updateBook(book.copyWith(
+        hasCover: true,
+        blurHash: blurHash,
+      ));
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+
+    return false;
   }
 
   static String? _generateBlurHash(Uint8List? cover) {

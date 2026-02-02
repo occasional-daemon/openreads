@@ -221,31 +221,56 @@ class _OpenreadsAppState extends State<OpenreadsApp>
     _decideWelcomeMode(widget.welcomeState);
 
     // initialize app link handling
-    // format is
-    // openreads://book.get/#{b64url}
-    // with the b64 string being compressed with brotli
-    // Covers are not yet supported
-    // dart map subscripts [] automatically return null if key not found
-    linkSub = AppLinks().uriLinkStream.listen((uri) {
-      print("Import book from URI: ${uri}");
-      try {
-        // only use url-safe b64. Reverse padding.
-        final frag = uri.fragment + '=' * (4 - (uri.fragment.length % 4));
-        final b64string = base64Url.decode(frag);
+    linkSub = AppLinks().uriLinkStream.listen(_importBookFromDeeplink);
+  }
 
-        // uncompress and decode
-        final book_map = json.decode(brotli.decodeToString(b64string));
-        print("book_map is $book_map");
+  void _importBookFromDeeplink(Uri uri) async {
+    /** The uri-format is:
+      * "openreads://book.get/#{b64url}"
+      * with the b64 string being compressed with brotli
+      * dart map subscripts [] automatically return null if key not found
+      * so client should only send minimal data.
+      * Covers are not yet supported
+      */
 
-        // create book and insert it
-        final newBook = Book.fromJSON(book_map);
-        bookCubit.addBook(newBook);
-        BackupGeneral.showInfoSnackbar(LocaleKeys.book_import_success
-            .tr(namedArgs: {'title': newBook.title}));
-      } catch (e) {
-        BackupGeneral.showInfoSnackbar(e.toString());
+    print("Import book from URI: ${uri}");
+    try {
+      // only use url-safe b64. Reverse padding.
+      String frag = uri.fragment;
+      if (frag.length % 4 != 0) {
+        frag += '=' * (4 - (frag.length % 4));
       }
-    });
+      final b64string = base64Url.decode(frag);
+
+      // uncompress and decode
+      final bookMap = json.decode(brotli.decodeToString(b64string));
+      print("bookMap is $bookMap");
+
+      // sanity check to avoid trouble during insert with double ids
+      bookMap['id'] = null;
+      bookMap['has_cover'] = null;
+
+      // create book and insert it
+      final newBook = Book.fromJSON(bookMap);
+
+      // after insertion check if we can download a cover
+      final newId = await bookCubit.addBook(newBook);
+      if (bookMap['cover_url'] != null && !bookMap['cover_url']!.isEmpty) {
+        try {
+          print("Trying to get cover from ${bookMap['cover_url']}");
+          final book = await bookCubit.getBook(newId);
+          await bookCubit.downloadCoverByURL(
+              book!, Uri.parse(bookMap['cover_url']!));
+        } catch (e) {
+          BackupGeneral.showInfoSnackbar(e.toString());
+        }
+      }
+
+      BackupGeneral.showInfoSnackbar(LocaleKeys.book_import_success
+          .tr(namedArgs: {'title': newBook.title}));
+    } catch (e) {
+      BackupGeneral.showInfoSnackbar(e.toString());
+    }
   }
 
   @override
