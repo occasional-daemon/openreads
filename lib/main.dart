@@ -47,6 +47,7 @@ import 'package:openreads/ui/home_screen/home_screen.dart';
 import 'package:openreads/ui/welcome_screen/welcome_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:app_links/app_links.dart';
+import 'package:brotli/brotli.dart';
 
 late BookCubit bookCubit;
 late Directory appDocumentsDirectory;
@@ -222,19 +223,22 @@ class _OpenreadsAppState extends State<OpenreadsApp>
     // initialize app link handling
     // format is
     // openreads://book.get/#{b64url}
+    // with the b64 string being compressed with brotli
     // Covers are not yet supported
+    // dart map subscripts [] automatically return null if key not found
     linkSub = AppLinks().uriLinkStream.listen((uri) {
       print("Import book from URI: ${uri}");
       try {
-        // only use url-safe b64
-        final decoded = base64Url.decode(uri.fragment);
-        // text is utf-8 to support all locales
-        final utf8decoded = utf8.decode(decoded);
-        final jsonDecoded = jsonDecode(utf8decoded);
-        // sanitize for safety. Ideally not needed to sent along.
-        jsonDecoded['id'] = null;
-        jsonDecoded['has_cover'] = 0;
-        final newBook = Book.fromJSON(jsonDecoded);
+        // only use url-safe b64. Reverse padding.
+        final frag = uri.fragment + '=' * (4 - (uri.fragment.length % 4));
+        final b64string = base64Url.decode(frag);
+
+        // uncompress and decode
+        final book_map = json.decode(brotli.decodeToString(b64string));
+        print("book_map is $book_map");
+
+        // create book and insert it
+        final newBook = Book.fromJSON(book_map);
         bookCubit.addBook(newBook);
         BackupGeneral.showInfoSnackbar(LocaleKeys.book_import_success
             .tr(namedArgs: {'title': newBook.title}));

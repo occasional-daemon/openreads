@@ -74,6 +74,7 @@ dependencies:
   mask_text_input_formatter: ^2.9.0
   flutter_markdown_plus: ^1.0.7
   app_links: ^7.0.0
+  brotli: ^0.6.0
 
 dev_dependencies:
   flutter_test:
